@@ -1,0 +1,34 @@
+extends layout
+
+block content
+    .container
+        h1 Sign up
+        form.formInput(action=`/signup` method="POST") 
+            .form-group.col-md-6
+                label(for='exampleInputEmail1') Name
+                input.form-control(type='text', aria-describedby='emailHelp' name='name' placeholder='name')
+                small#emailHelp.form-text.text-muted 
+            .form-group.col-md-6
+                label(for='exampleInputEmail1') Phone Number
+                input.form-control(type='number' name='number' aria-describedby='emailHelp', placeholder='+234')
+            .form-group.col-md-6
+                label(for='exampleInputEmail1') Email address
+                input.form-control(type='email' placeholder='Enter email' name='email')
+            .form-group.col-md-6
+                label(for='exampleInputEmail1') Gender
+                select#exampleFormControlSelect1.form-control
+                     option(value="male") Male
+                     option(value="female") Female
+            .form-group.col-md-6
+                label(for='exampleInputEmail1') Profile Picture
+                input.form-control(type='file' id="photo" accept="image/gif, image/png, image/jpeg" name='picture')
+            .form-group.col-md-6
+                label(for='exampleInputPassword1') Password
+                input.form-control(type='password', placeholder='Password' name='password')
+            .form-group.col-md-6
+                label(for='exampleInputPassword1') Comfirm Password
+                input.form-control(type='password', placeholder='Password',  name="confirmPassword")
+            .form-check.col-md-6
+                input.form-check-input(type='checkbox')
+                label.form-check-label(for='exampleCheck1') Have Read and accepted the terms and conditions
+            button.btn.btn-primary(type='submit') Submit

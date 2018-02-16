@@ -1,6 +1,6 @@
-const passport = require('passport');
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
+import passport from 'passport';
+import mongoose from 'mongoose';
+import User from '../models/User';
 
 passport.use(User.createStrategy());
 

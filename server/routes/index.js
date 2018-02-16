@@ -1,7 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import users from '../controllers/UserController'
-//import { validator, auth } from '../middleware';
+import user from '../controllers/UserController'
+import validation from '../middleware/validation'
+import auth from '../handlers/authcontrollers'
 
 const router = express.Router();
 
@@ -14,7 +15,17 @@ router.get('/', (req, res) => {
    res.render('home', {title: 'TruBeauty'})
 });
 
+router.get('/login', user.loginForm)
+router.get('/signup', user.signupForm)
 
-//router.post('/user/signup', users.signup)
+router.post('/signup',
+    validation.signup,
+    auth.passport,
+    user.signup
+)
+
+router.post('/login', validation.login, user.login)
+
+
 
 export default router;

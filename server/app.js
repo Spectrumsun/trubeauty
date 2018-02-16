@@ -4,7 +4,7 @@ import session from 'express-session';
 import morgan from 'morgan';
 import flash from 'connect-flash';
 import passport from 'passport';
-import mongoose from 'mongoose';
+import mongoose, { Mongoose } from 'mongoose';
 import cookieParser from 'cookie-parser';
 import promisify from 'es6-promisify'; 
 import expressValidator from 'express-validator';
@@ -13,6 +13,7 @@ import path from 'path';
 import routes from './routes/index';
 import helpers from './helpers';
 import errorHandlers from './handlers/errorHandlers';
+
 const MongoStore = require('connect-mongo')(session);
 require('./handlers/passport');
 
@@ -67,13 +68,11 @@ app.use(errorHandlers.flashValidationErrors);
 
 
 if (app.get('env') === 'development') {
-  // Development Error Handler - Prints stack trace 
   app.use(errorHandlers.developmentErrors);
 }
 
 app.use(errorHandlers.developmentErrors);
-
-//app.use(errorHandlers.productionErrors);
+app.use(errorHandlers.productionErrors);
 
 
 export default app;

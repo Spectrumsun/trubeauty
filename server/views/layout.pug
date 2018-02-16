@@ -2,34 +2,46 @@ doctype html
 html
 	head
 		title= `${title} | ${h.siteName}`
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-		link(rel='stylesheet', href='/dist/style.css')
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous")
+		link(rel='stylesheet' href='/dist/style.css')
 		link(rel="shortcut icon" type="image/png" href="/images/icons/logo.png")
 	body
 		block header
-			nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.bg-dark
-				a.navbar-brand(href='/ ') 
-					<img src="/images/icons/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+			nav.navbar.navbar-expand-lg.light(style='background-color: #F4E1E7;')
+				a.navbar-brand(href='/') 
+					strong TruBeauty
 				button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
 					span.navbar-toggler-icon
 				#navbarSupportedContent.collapse.navbar-collapse
 					ul.navbar-nav.mr-auto
 						li.nav-item.active
-							a.nav-link(href='/')
-								| Home 
-						li.nav-item.active
-							a.nav-link(href='/signup')
-								| Sign up
-						li.nav-item.active
-							a.nav-link(href='/login')
-								| Log in
-					ul.nav.navbar-nav.navbar-right
+						a.nav-link(href='/')
+							strong  Home 
+							span.sr-only (current)
+						li.nav-item
+							a.nav-link(href='/login') 
+								strong Login
+						li.nav-item
+							a.nav-link(href='/signup') 
+								strong Signup
+						li.nav-item.dropdown
+							a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+								strong  Services
+							.dropdown-menu(aria-labelledby='navbarDropdown')
+								a.dropdown-item(href='/login') Add service
+								.dropdown-divider
+								a.dropdown-item(href='/signup') Order service
+					form.form-inline.my-2.my-lg-0
+						input.form-control.mr-sm-2(type='search', placeholder='Search', aria-label='Search')
+						button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search
+
+		
 						
 						
 
 
 		block messages
-				br
+				
 				.container
 					if locals.flashes
 						- const categories = Object.keys(locals.flashes)
@@ -50,6 +62,5 @@ html
 			<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-			<script src="/javascript/modules/axios.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/1.0.2/purify.min.js"></script>
-			<script src="/javascript/student-app.js"></script>
+			

@@ -1,0 +1,49 @@
+body {
+	background-color: #efe6e8 ;
+	font-family: 'Mada', sans-serif;
+}
+
+.card {
+	margin-left: 30px;
+	margin-bottom: 30px;
+}
+
+a {
+	margin-right: 10px;
+}
+
+.del{
+	display: inline;
+}
+
+.lab {
+	margin-top: 33px;
+}
+
+
+a {
+	text-decoration: none;
+	color: inherit; 
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+
+.fullPix{
+	width: 256px;
+    height: 200px; 
+}
+
+
+p {
+    text-transform: capitalize;
+}
+
+
+h6 {
+	text-transform: capitalize;
+}
+
+

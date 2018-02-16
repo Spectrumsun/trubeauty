@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    .container
+        h1 Login
+        form
+            .form-group.col-md-6
+                label(for='exampleInputEmail1') Email address
+                input.form-control(type='email' placeholder='Enter email')
+                small#emailHelp.form-text.text-muted 
+            .form-group.col-md-6
+                label(for='exampleInputPassword1') Password
+                input.form-control(type='password', placeholder='Password')
+            button.btn.btn-primary(type='submit') Submit
