@@ -8,7 +8,13 @@ class AddServices {
   }
 
   static async addservice (req, res) {
-    const service = new AddService ( req.body );
+    const service = new AddService ({
+            servicetype: req.body.servicetype,
+            address: req.body.address, 
+            time: req.body.time,
+            senderName: req.user.username,
+            sender: req.user._id
+    } );
     await service.save();
     req.flash("success", `We well Get back to you`);
     res.redirect("/")

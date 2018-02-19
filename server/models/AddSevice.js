@@ -11,10 +11,18 @@ const addServiceSchema = new Schema({
     trim: true,
     required: 'Service Required'
   },
-  location: {
+  address: {
     type: String,
-    required: 'Location Required ',
+    required: 'address Required ',
     trim: true
+  },
+  time: {
+    type: String,
+    required: 'Time Required',
+    trim: true
+  },
+  senderName: {
+    type: String
   },
  sender: {
     type: mongoose.Schema.Types.ObjectId,

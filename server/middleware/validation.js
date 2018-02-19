@@ -48,7 +48,7 @@ class Validate {
   
 
    static addservice (req, res, next) {
-   req.checkBody('email', 'That Email is not valid!').isEmail();
+   req.checkBody('servicetype', 'That Email is not valid!').notEmpty();
    req.sanitizeBody('email').normalizeEmail(
         {
         remove_dots: false, 
@@ -56,18 +56,30 @@ class Validate {
         gmail_remove_subaddress: false 
         }
     );
-    req.checkBody('location', 'location Cannot be Blank!').notEmpty();
+    req.checkBody('address', 'location Cannot be Blank!').notEmpty();
 
     const errors = req.validationErrors();
     if (errors) {
        req.flash('Error!!', errors.map(err => err.msg))
-       res.render('addservice', {title: 'Login', body: req.body, flashes: req.flash() })
+       res.render('addservice', {title: 'Add Service', body: req.body, flashes: req.flash() })
       return; // stop the fn from running
     }
     next(); // there were no errors!
   }
 
- 
+ static resetpassword(req, res, next) {
+   req.checkBody('password', 'password cannot be empty!').notEmpty();
+   req.checkBody('confirmPassword', 'Oops! Your passwords do not match').equals(req.body.password);
+
+    const errors = req.validationErrors();
+    if (errors) {
+       req.flash('Password Reset error', errors.map(err => err.msg))
+       res.render('resetpassword', {title: 'Rest Password', body: req.body, flashes: req.flash() })
+      return; // stop the fn from running
+    }
+    next(); // there were no errors!
+  }
+
 
   
 

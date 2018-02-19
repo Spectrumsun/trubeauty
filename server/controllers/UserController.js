@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 import User  from '../models/User';
 import { promisify } from 'es6-promisify';
 class Users {
@@ -26,13 +27,64 @@ class Users {
        }else{
           next();
        }
-        
      })
   }
 
   static passwordreset (req, res ) {
     res.render('passwordreset');
   }
+
+  static async forgotPassword (req, res ) {
+    const user = await User.findOne({email: req.body.email });
+    if(!user){
+      req.flash('success', 'A password reset has been mailed to you');
+      return res.redirect('/login')
+    }
+
+    user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+    user.resetPasswordExpires = Date.now() + 360000;
+    await user.save();
+
+    const resetURL = `http//${req.headers.host}/account/reset/${user.resetPasswordToken}`;
+    req.flash('success', `You have been emailed a passsword reset link. ${resetURL}`)
+    res.redirect('/login');
+  }
+
+  static async reset (req, res ) {
+    const user = await User.findOne({
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+
+    if(!user) {
+      req.flash('error', 'Password reset token is not invalid or has expired');
+      res.redirect('/login');
+    }
+    res.render('resetpassword', {title: 'Reset your Password'});
+  }
+
+  static async passwordupdate (req, res) {
+     const user = await User.findOne({
+      resetPasswordToken: req.params.token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+
+    if(!user) {
+      req.flash('error', 'Password reset token is not invalid or has expired');
+      res.redirect('/login');
+    }
+
+      const newPassword = req.body.password
+            user.setPassword(newPassword, () => {
+            user.resetPasswordToken = undefined
+            user.resetPasswordExpires = undefined
+            user.save()
+            req.flash('success', '💃 Nice! Your password has been reset! You are now logged in!');
+            res.redirect('/');
+   })
+
+}
+
 
   static logout (req, res) {
     req.logout();

@@ -7,6 +7,7 @@ import auth from '../handlers/authcontrollers'
 import orderService from '../controllers/orderServiceController';
 import addservice from '../controllers/addSeviceController';
 import admin from '../controllers/adminController'
+import { catchErrors } from '../handlers/errorHandlers';
 
 const router = express.Router();
 
@@ -25,7 +26,16 @@ router.post('/signup',
     user.signup,
     auth.login
 )
+
 router.get('/passwordreset', user.passwordreset)
+router.post('/passwordreset', catchErrors(user.forgotPassword))
+
+router.get('/account/reset/:token', catchErrors(user.reset))
+router.post('/account/reset/:token',
+    validation.resetpassword, 
+    catchErrors(user.passwordupdate)
+  )
+
 
 router.get('/logout', user.logout)
 
