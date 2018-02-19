@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .container
+        h1 Add Service
+        form.formInput(action=`/addservice` method="POST") 
+            .form-group.col-md-6
+                label(for='exampleInputEmail1') Service Type
+                input.form-control(type='text', aria-describedby='emailHelp' name='servicetype' placeholder='service ')
+                small#emailHelp.form-text.text-muted 
+                .form-group.col-md-6
+                label(for='exampleInputEmail1') Location
+                input.form-control(type='text', aria-describedby='emailHelp' name='location' placeholder='Location')
+                small#emailHelp.form-text.text-muted 
+            button.btn.btn-primary(type='submit') Submit
+       

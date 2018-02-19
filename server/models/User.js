@@ -15,22 +15,24 @@ const userSchema = new Schema({
     validate: [validator.isEmail, 'Invalid Email Address'],
     required: 'Please Supply an email address'
   },
-  name: {
+  username: {
     type: String,
     required: 'Please supply a name',
     trim: true
   },
   number: {
     type: Number,
+    unique: true,
     required: 'Please supply a phone number',
   },
   gender: {
     type: String,
-    required: 'Please supply a gender number',
+    required: 'Add your Gender',
+   
   },
   picture: {
-    type: String
-
+    type: String,
+    required: 'Add a picture'
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
@@ -48,4 +50,5 @@ userSchema.virtual('gravatar').get(function() {
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 userSchema.plugin(mongodbErrorHandler);
 
-module.exports = mongoose.model('User', userSchema);
+
+export default mongoose.model('User', userSchema);

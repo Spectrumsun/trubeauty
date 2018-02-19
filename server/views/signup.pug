@@ -6,19 +6,17 @@ block content
         form.formInput(action=`/signup` method="POST") 
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Name
-                input.form-control(type='text', aria-describedby='emailHelp' name='name' placeholder='name')
+                input.form-control(type='text', aria-describedby='emailHelp' name='username' placeholder='name')
                 small#emailHelp.form-text.text-muted 
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Phone Number
-                input.form-control(type='number' name='number' aria-describedby='emailHelp', placeholder='+234')
+                input.form-control(type='number' name='number' aria-describedby='emailHelp', placeholder='11 digit number')
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Email address
                 input.form-control(type='email' placeholder='Enter email' name='email')
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Gender
-                select#exampleFormControlSelect1.form-control
-                     option(value="male") Male
-                     option(value="female") Female
+                 input.form-control(type='text' placeholder='Enter your gender' name='gender')
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Profile Picture
                 input.form-control(type='file' id="photo" accept="image/gif, image/png, image/jpeg" name='picture')

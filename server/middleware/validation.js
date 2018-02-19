@@ -1,9 +1,10 @@
 class Validate {
   static signup(req, res, next) {
     req.sanitizeBody('name');
-    req.checkBody('name', 'You must supply a name!').notEmpty();
+    req.checkBody('username', 'You must supply a name!').notEmpty();
     req.checkBody('number', 'You must supply a Phone Number!').notEmpty();
-    //req.checkBody('gender', 'You must supply your gender!').notEmpty();
+    req.checkBody('gender', 'You must supply your gender!').notEmpty();
+    req.checkBody('picture', 'You must upload a picture!').notEmpty();
     req.checkBody('email', 'That Email is not valid!').isEmail();
     req.sanitizeBody('email').normalizeEmail(
         {
@@ -17,23 +18,50 @@ class Validate {
 
     const errors = req.validationErrors();
     if (errors) {
-      req.flash('errror', errors.map(err => err.msg))
-      res.render('signup', {title: 'Signup', body: req.body, flashes: req.flash()})
+      req.flash('Sign up error', errors.map(err => err.msg))
+      res.render('signup', {title: 'Signup', body: req.body, flashes: req.flash() })
       return;
     }
     next();
   }
 
   static login(req, res, next) {
-    req.sanitizeBody('name');
-    req.checkBody('email', 'That Email is not valid!').isEmail();
-    req.sanitizeBody('email').normalizeEmail({ remove_dots: false, remove_extension: false, gmail_remove_subaddress: false });
+   req.checkBody('email', 'That Email is not valid!').isEmail();
+   req.sanitizeBody('email').normalizeEmail(
+        {
+        remove_dots: false, 
+        remove_extension: false, 
+        gmail_remove_subaddress: false 
+        }
+    );
     req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
 
     const errors = req.validationErrors();
     if (errors) {
-      res.status(400).send({ message: 'login errors', errors });
-      
+       req.flash('login error', errors.map(err => err.msg))
+       res.render('login', {title: 'Login', body: req.body, flashes: req.flash() })
+      return; // stop the fn from running
+    }
+    next(); // there were no errors!
+  }
+
+  
+
+   static addservice (req, res, next) {
+   req.checkBody('email', 'That Email is not valid!').isEmail();
+   req.sanitizeBody('email').normalizeEmail(
+        {
+        remove_dots: false, 
+        remove_extension: false, 
+        gmail_remove_subaddress: false 
+        }
+    );
+    req.checkBody('location', 'location Cannot be Blank!').notEmpty();
+
+    const errors = req.validationErrors();
+    if (errors) {
+       req.flash('Error!!', errors.map(err => err.msg))
+       res.render('addservice', {title: 'Login', body: req.body, flashes: req.flash() })
       return; // stop the fn from running
     }
     next(); // there were no errors!
