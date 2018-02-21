@@ -45,19 +45,20 @@ router.post('/addservice',
 )
 
 router.get('/addservice', auth.isLoggedIn, 
-            catchErrors(addservice.addServiceFrom)
+            addservice.addServiceFrom
     ) 
 
-router.get('/orderservice', 
-         auth.isLoggedIn,
-         catchErrors(orderService.orderserviceForm)
+router.get('/orderservice',
+         orderService.orderservice
 )
+
+router.get('/viewproduct', orderService.viewProducts)
 
 router.get('/admin/', admin.adminDashBoard);
 router.get('/admin/viewproduct', productController.GetProducts);
 router.get('/admin/product', productController.ProudctForm);
 
-router.post('/admin/addproduct', catchErrors(productController.Addproduct));
+router.post('/admin/addproduct',validation.addProduct, catchErrors(productController.Addproduct));
 
 router.get('/admin/product/edit/:id', catchErrors(productController.LoadEditProducts));
 

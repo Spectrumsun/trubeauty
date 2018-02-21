@@ -4,8 +4,13 @@ import OrderService from '../models/orderService';
 
 
 class OrderServices {
-     static orderserviceForm (req, res) {
+     static orderservice (req, res) {
     res.render('orderservice', {title: 'Order Service'});
+  }
+
+  static async viewProducts (req, res) {
+    const products = await Product.find();
+    res.render('viewproductclient', {title: 'Products'});
   }
 }
 

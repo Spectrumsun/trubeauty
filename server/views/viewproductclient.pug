@@ -1,0 +1,13 @@
+.d-lg-inline-block
+        .card(style='width: 22rem;' )
+        img.card-img-top.img-thumbnail(src=`/images/default.png`, class="img" alt='Card image cap')
+        .card-body
+        h5.card-title 
+            strong Category - #{product.category}
+            h6.card-text
+            | #{product.productname} 
+            br
+            h6 Price #{product.price}
+        a.btn.btn-primary(href=`/admin/product/edit/${product._id}`) Edit
+        form(action=`/admin/product/delete/${product._id}` method="POST")
+            button.btn.btn-danger(value="Delete") Delete
