@@ -4,19 +4,28 @@ import mongodbErrorHandler from 'mongoose-mongodb-errors';
 
 const Schema = mongoose.Schema;
 
-const orderServiceSchema = new Schema({
-  seriveType: {
+const productSchema = new Schema({
+  category:{
     type: String,
     lowercase: true,
     trim: true,
-    required: 'Add the serive you want to need'
   },
-  location: {
+  productname: {
     type: String,
-    required: 'add the location you need the service',
+    lowercase: true,
+    trim: true,
+    unique: true
+  },
+  price: {
+    type: String,
     trim: true
   },
- sender: {
+  photo: {
+    type: String,
+    required: 'Add a picture',
+    default: 'photo.png'
+  },
+  sender: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
@@ -26,7 +35,5 @@ const orderServiceSchema = new Schema({
     },
 });
 
-orderServiceSchema.plugin(mongodbErrorHandler);
 
-
-export default mongoose.model('OrderService', orderServiceSchema);
+export default mongoose.model('product', productSchema);

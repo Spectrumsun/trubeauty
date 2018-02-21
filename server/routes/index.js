@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import productController from '../controllers/productController';
 import user from '../controllers/UserController'
 import signup from '../controllers/UserController';
 import validation from '../middleware/validation'
@@ -36,25 +37,34 @@ router.post('/account/reset/:token',
     catchErrors(user.passwordupdate)
   )
 
-
 router.get('/logout', user.logout)
 
 router.post('/addservice', 
     validation.addservice, 
-    addservice.addservice
+    catchErrors(addservice.addservice)
 )
 
-
-router.get('/admin', admin.adminDashBoard)
-
 router.get('/addservice', auth.isLoggedIn, 
-            addservice.addServiceFrom
+            catchErrors(addservice.addServiceFrom)
     ) 
 
 router.get('/orderservice', 
          auth.isLoggedIn,
-         orderService.orderserviceForm
+         catchErrors(orderService.orderserviceForm)
 )
+
+router.get('/admin/', admin.adminDashBoard);
+router.get('/admin/viewproduct', productController.GetProducts);
+router.get('/admin/product', productController.ProudctForm);
+
+router.post('/admin/addproduct', catchErrors(productController.Addproduct));
+
+router.get('/admin/product/edit/:id', catchErrors(productController.LoadEditProducts));
+
+router.post('/admin/addproduct/:id', catchErrors(productController.EditProducts));
+
+router.post('/admin/product/delete/:id', catchErrors(productController.DeleteProduct));
+
 
 
 export default router;

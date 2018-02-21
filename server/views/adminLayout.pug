@@ -3,11 +3,11 @@ html
 	head
 		title= `${title} | ${h.siteName}`
 		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous")
-		link(rel='stylesheet' href='/dist/style.css')
+		link(rel='stylesheet' href='/dist/style2.css')
 		link(rel="shortcut icon" type="image/png" href="/images/icons/logo.png")
 	body
 		block header
-			nav.navbar.navbar-expand-lg.light(style='background-color: #000000;')
+			nav.navbar.navbar-expand-lg.navbar-light.bg-light
 				a.navbar-brand(href='/') 
 					strong TruBeauty
 				button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
@@ -15,8 +15,16 @@ html
 				#navbarSupportedContent.collapse.navbar-collapse
 					ul.navbar-nav.mr-auto
 						li.nav-item.active
-						a.nav-link(href='/')
+						a.nav-link(href='/admin')
 							strong  Home 
+							span.sr-only (current)
+						li.nav-item.active
+						a.nav-link(href='/admin/product')
+							strong  Add Product 
+							span.sr-only (current)
+						li.nav-item.active
+						a.nav-link(href='/admin/viewproduct')
+							strong  View Product 
 							span.sr-only (current)
 					form.form-inline.my-2.my-lg-0
 						input.form-control.mr-sm-2(type='search', placeholder='Search', aria-label='Search')
@@ -44,7 +52,7 @@ html
 
 
 		block content
-			h2 Tru Beauty
+			h2 Admin Page
 
 		block footer
 			<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

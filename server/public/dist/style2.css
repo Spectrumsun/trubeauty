@@ -1,0 +1,46 @@
+body {
+	background-color: #f0f0f0 ;
+	font-family: 'Mada', sans-serif;
+}
+
+.img {
+    width: 300px;
+    height: 300px;
+}
+
+.del{
+	display: inline;
+}
+
+.lab {
+	margin-top: 33px;
+}
+
+
+a {
+	text-decoration: none;
+	color: inherit; 
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+
+.fullPix{
+	width: 256px;
+    height: 200px; 
+}
+
+
+p {
+    text-transform: capitalize;
+}
+
+
+h6 {
+	text-transform: capitalize;
+}
+
+
+

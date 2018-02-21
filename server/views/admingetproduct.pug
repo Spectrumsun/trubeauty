@@ -1,0 +1,12 @@
+extends adminLayout
+
+include mixins/_productCard
+
+block content
+    .container
+        h1 Product List
+        each product in products
+            +productCard(product)   
+		
+			
+

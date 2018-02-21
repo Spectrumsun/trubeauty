@@ -3,7 +3,7 @@ import path from 'path';
 import app from './app';
 
 
-require('dotenv').config({ path: 'variables.env' });
+require('dotenv').config({ path: '.env' });
 
 require('./models/User');
 
@@ -19,3 +19,4 @@ app.set('port', process.env.PORT || 7777);
 const server = app.listen(app.get('port'), () => {
   console.log(`Express running → PORT ${server.address().port}`);
 });
+

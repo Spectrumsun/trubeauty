@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
 import User  from '../models/User';
-import { promisify } from 'es6-promisify';
+import mail from '../handlers/mail';
+
+
+require('dotenv').config({ path: '.env' });
 class Users {
   static signupForm (req, res) {
     res.render('signup', {title: 'Signup'});
@@ -46,7 +49,12 @@ class Users {
     await user.save();
 
     const resetURL = `http//${req.headers.host}/account/reset/${user.resetPasswordToken}`;
-    req.flash('success', `You have been emailed a passsword reset link. ${resetURL}`)
+    await mail.send({
+      user,
+      subject: 'Password Reset',
+      resetURL
+    })
+    req.flash('success', `You have been emailed a passsword reset link`)
     res.redirect('/login');
   }
 
@@ -58,8 +66,9 @@ class Users {
 
     if(!user) {
       req.flash('error', 'Password reset token is not invalid or has expired');
-      res.redirect('/login');
+      return res.redirect('/login');
     }
+    
     res.render('resetpassword', {title: 'Reset your Password'});
   }
 
@@ -79,8 +88,8 @@ class Users {
             user.resetPasswordToken = undefined
             user.resetPasswordExpires = undefined
             user.save()
-            req.flash('success', '💃 Nice! Your password has been reset! You are now logged in!');
-            res.redirect('/');
+            req.flash('success', '💃 Nice! Your password has been reset! You are can now login!');
+            res.redirect('/login');
    })
 
 }
