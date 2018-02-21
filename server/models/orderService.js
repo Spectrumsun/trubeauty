@@ -5,20 +5,33 @@ import mongodbErrorHandler from 'mongoose-mongodb-errors';
 const Schema = mongoose.Schema;
 
 const orderServiceSchema = new Schema({
-  seriveType: {
+  productId: {
+     type: mongoose.Schema.Types.ObjectId,
+     ref: 'Product'
+  },
+  productname:{
     type: String,
-    lowercase: true,
-    trim: true,
-    required: 'Add the serive you want to need'
   },
   location: {
     type: String,
     required: 'add the location you need the service',
     trim: true
   },
- sender: {
+ buyerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  },
+  buyeremail: {
+    type: String,
+    required: true
+  },
+  time: {
+    type: String,
+    required: true
+  },
+  address: {
+    type: String,
+    required: true
   },
   created: {
     	type: Date,

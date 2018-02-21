@@ -98,6 +98,21 @@ class Validate {
     }
     next(); // there were no errors!
   }
+
+  static payOrder(req, res, next) {
+    req.checkBody('location', 'You must supply a location').notEmpty();
+    req.checkBody('time', 'You must supply the time').notEmpty();
+    req.checkBody('address', 'You must supply your Aaddress').notEmpty();
+    req.checkBody('date', 'You must supply the date').notEmpty();
+
+    const errors = req.validationErrors();
+    if (errors) {
+       req.flash('Order Error', errors.map(err => err.msg))
+       res.render('viewproductclient', {title: 'Order Product', body: req.body, flashes: req.flash() })
+      return; // stop the fn from running
+    }
+    next(); // there were no errors!
+  }
 }
 
 

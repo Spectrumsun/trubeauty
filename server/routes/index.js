@@ -39,6 +39,12 @@ router.post('/account/reset/:token',
 
 router.get('/logout', user.logout)
 
+router.post('/product/pay',auth.isLoggedIn,
+            validation.payOrder, 
+            orderService.Payorder)
+
+
+
 router.post('/addservice', 
     validation.addservice, 
     catchErrors(addservice.addservice)
@@ -48,7 +54,7 @@ router.get('/addservice', auth.isLoggedIn,
             addservice.addServiceFrom
     ) 
 
-router.get('/orderservice',
+router.get('/orderproduct/:id',
          orderService.orderservice
 )
 
