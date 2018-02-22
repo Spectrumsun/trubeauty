@@ -14,7 +14,7 @@ const orderServiceSchema = new Schema({
   },
   location: {
     type: String,
-    required: 'add the location you need the service',
+    required: 'Location can not be empty',
     trim: true
   },
  buyerId: {
@@ -27,11 +27,11 @@ const orderServiceSchema = new Schema({
   },
   time: {
     type: String,
-    required: true
+   required: 'Time cannot be empty',
   },
   address: {
     type: String,
-    required: true
+    required: 'Address cannot be empty'
   },
   created: {
     	type: Date,

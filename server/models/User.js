@@ -34,6 +34,8 @@ const userSchema = new Schema({
     type: String,
     required: 'Add a picture'
   },
+  emailVerfication: String,
+  emailVerficationExpires: Date,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   created: {

@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import crypto from 'crypto';
 import User  from '../models/User';
 import mail from '../handlers/mail';
-
+import mail2 from '../handlers/mail2';
 
 require('dotenv').config({ path: '.env' });
 class Users {
@@ -21,16 +21,56 @@ class Users {
             number: req.body.number,
             gender: req.body.gender,
             picture: req.body.picture,
+            emailVerfication: crypto.randomBytes(20).toString('hex'),
+            emailVerficationExpires: Date.now() + 360000
       })
+    ;
+
      User.register(user, req.body.password, (err, user) => {
        if(err){
-         console.log(err )
          req.flash('Sign up error', err )
          res.render('signup', {title: 'Signup', body: req.body, err: err, flashes: req.flash() })
        }else{
+         const emailURL = `http//${req.headers.host}/account/confirmemail/${user.emailVerfication}`
+          mail2.send({
+          user,
+          subject: 'Email verification',
+          emailURL
+        })
           next();
        }
      })
+  }
+
+  static emailVerfication(req, res){
+    req.flash('success', 'Check your inbox to verfiy your mail');
+    res.redirect('/', )
+  }
+
+  static async confirmEmail (req, res ) {
+    const user = await User.findOne({
+      emailVerfication: req.params.token,
+      emailVerficationExpires: { $gt: Date.now() }
+    });
+
+    if(!user) {
+      req.flash('error', 'Email verification failed token is not invalid or has expired');
+      return res.redirect('/signup');
+    }
+    user.emailVerfication = undefined
+    user.emailVerficationExpires = undefined
+    user.save()
+    req.flash('success', '💃 Nice! Email Confirmed You are can now login!');;
+    res.redirect('/login');
+  }
+
+  static async isConfirmEmail(req, res, next){
+    const user = await User.findOne({email: req.body.email });
+    if(user.emailVerfication && user.emailVerficationExpires !== undefined ){
+      req.flash('error', 'You have to first confirm Your Email');
+      return res.redirect('/login')
+    }
+    next();
   }
 
   static passwordreset (req, res ) {
@@ -68,7 +108,6 @@ class Users {
       req.flash('error', 'Password reset token is not invalid or has expired');
       return res.redirect('/login');
     }
-    
     res.render('resetpassword', {title: 'Reset your Password'});
   }
 
@@ -95,7 +134,7 @@ class Users {
 }
 
 
-  static logout (req, res) {
+static logout (req, res) {
     req.logout();
     req.flash('success', 'You are now logged out! 👋');
     res.redirect('/');

@@ -18,11 +18,11 @@ class OrderServices {
     res.json('pay me')
   }
 
-  static async Payorder (req, res) {
+  static async PayforOrder (req, res) {
     const products = await Product.findOne({ _id: req.body.id });
-    console.log(products)
     if(!products){
-      res.json('error that product can not be found');
+      res.flash('error', 'No product with such id')
+      res.redirect('/viewproduct', req.flash());
     }
 
     const order = new Order({
@@ -35,12 +35,11 @@ class OrderServices {
       buyerId: req.user._id,
       buyeremail: req.user.email
     })
+
+
     await order.save();
-    res.json(order)
+    res.render('paystack', {title: 'Paystack', order})
   }
-
-
-
 
 
 }

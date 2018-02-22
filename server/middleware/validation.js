@@ -80,10 +80,6 @@ class Validate {
     next(); // there were no errors!
   }
 
-
-  
-
-
   static addProduct(req, res, next) {
     req.checkBody('category', 'You must supply a Category!').notEmpty();
     req.checkBody('productname', 'You must supply a Productname!').notEmpty();
@@ -108,7 +104,7 @@ class Validate {
     const errors = req.validationErrors();
     if (errors) {
        req.flash('Order Error', errors.map(err => err.msg))
-       res.render('viewproductclient', {title: 'Order Product', body: req.body, flashes: req.flash() })
+       res.render('orderservice', {title: 'Order Product', body: req.body, flashes: req.flash() })
       return; // stop the fn from running
     }
     next(); // there were no errors!

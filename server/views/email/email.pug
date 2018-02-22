@@ -1,0 +1,9 @@
+extends email-layout
+
+block content
+  h2 Email Verification
+  p Hello. here is your email verifcation link. Please click the following button to continue. Please note this link is only valid for the next hour.
+  +button(emailURL, 'Email Verifation →')
+  p If you can't click the above button please visit #{emailURL}
+  br
+  p If you didn't register a new account with us, please ignore it.

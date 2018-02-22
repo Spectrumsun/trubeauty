@@ -15,7 +15,7 @@ const transport = nodemailer.createTransport({
 
 
 const generateHTML = (filename, options = {}) => {
-  const html = pug.renderFile(`${__dirname}/../views/email/password-reset.pug`, options);
+  const html = pug.renderFile(`${__dirname}/../views/email/email.pug`, options);
   const inlined = juice(html);
   return inlined;
 };
