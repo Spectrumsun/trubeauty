@@ -4,15 +4,11 @@ import cloudinary from 'cloudinary';
 import User  from '../models/User';
 import mail from '../handlers/mail';
 import mail2 from '../handlers/mail2';
-import { upload } from '../middleware/imageUpload';
+import upload from '../middleware/cloudUpload';
 
 require('dotenv').config({ path: '.env' });
 
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME, 
-    api_key:  process.env.API_KEY, 
-    api_secret:  process.env.API_SECRET 
-});
+
 class Users {
   static signupForm (req, res) {
     res.render('signup', {title: 'Signup'});
@@ -23,16 +19,15 @@ class Users {
   }
 
   static async signup (req, res, next) {
-  const getit = await cloudinary.v2.uploader.upload(req.file.path)
-  await getit
-  console.log(getit)
+  const pic = await upload(req.file.path)
+  console.log(pic)
    
       const user = new User({
             email: req.body.email, 
             username: req.body.username,
             number: req.body.number,
             gender: req.body.gender,
-            picture: getit.secure_url,
+            picture: pic.secure_url,
             emailVerfication: crypto.randomBytes(20).toString('hex'),
             emailVerficationExpires: Date.now() + 360000
       
