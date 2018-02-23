@@ -25,7 +25,10 @@ const productSchema = new Schema({
     required: 'Add a picture',
     default: 'photo.png'
   },
-  sender: {
+  pictureID: {
+    type: String,
+  },
+  admin: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },

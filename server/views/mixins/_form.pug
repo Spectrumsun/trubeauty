@@ -11,7 +11,7 @@ mixin form(product = {})
                 input.form-control(type='text', aria-describedby='emailHelp' required value=product.price name='price')
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Photo
-                input.form-control(type='file' id="picture" accept="image/gif, image/png, image/jpeg" name='picture' required)
+                input.form-control(type='file' id="picture" accept="image/gif,  image/png, image/jpeg" value=product.pictureID name='picture' )
                 if product.picture
                     img(src=product.picture, alt=product.username)
             button.btn.btn-primary(type='submit') Save

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import Product  from '../models/Product';
-import upload from '../middleware/cloudUpload';
+import imageUpload from '../middleware/imageUpload';
 
 require('dotenv').config({ path: '.env' });
 class Products {
@@ -9,14 +9,15 @@ class Products {
   }
  
   static async Addproduct (req, res) {
-    const pic = await upload(req.file.path)
+    const pic = await imageUpload.uploadToCloud(req.file.path)
     console.log(pic)
     const product = new Product({
             category: req.body.category,
             productname: req.body.productname,
             price: req.body.price,
             picture: pic.secure_url,
-            sender: req.user._id
+            pictureID: pic.public_id,
+            admin: req.user._id
     })
 
     await product.save();
@@ -25,12 +26,26 @@ class Products {
   }
 
 static async LoadEditProducts (req, res) {
+    console.log(req.body)
     const product = await Product.findOne({ _id: req.params.id});
     res.render('editProductForm', {title: `Edit ${product.category}`, product})
 }
 
 static async EditProducts (req, res) {
-    const products = await Product.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    const findProduct = await Product.findOne({ _id: req.params.id});
+    console.log(findProduct.pictureID);
+    const pic = await imageUpload.uploadToCloud(findProduct.pictureID);
+    console.log(pic);
+    const data = {
+        category: req.body.category,
+        productname: req.body.productname,
+        price: req.body.price,
+        picture: pic.secure_url,
+        pictureID: pic.public_id,
+        sender: req.user._id
+
+    }
+    const products = await Product.findOneAndUpdate({ _id: req.params.id }, data, {
         new: true,
         runValidators: true
     }).exec()
@@ -48,7 +63,7 @@ static async DeleteProduct (req, res) {
     const product = await Product.remove(({_id: req.params.id}))
     req.flash('success', 'Product Removed!!');
     res.redirect('/admin/viewproduct');
-}
+    }
 
 
 }
