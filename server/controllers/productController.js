@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import Product  from '../models/Product';
-import upload from '../middleware/imageUpload';
+import upload from '../middleware/cloudUpload';
 
 require('dotenv').config({ path: '.env' });
 class Products {
