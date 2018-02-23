@@ -74,6 +74,7 @@ router.post('/admin/product',
     catchErrors(productController.Addproduct));
 
 router.post('/admin/product/:id', 
+    imageUpload.upload,
     catchErrors(productController.EditProducts));
 
 

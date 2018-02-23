@@ -4,7 +4,7 @@ import cloudinary from 'cloudinary';
 import User  from '../models/User';
 import mail from '../handlers/mail';
 import mail2 from '../handlers/mail2';
-import upload from '../middleware/cloudUpload';
+import upload from '../middleware/imageUpload';
 
 require('dotenv').config({ path: '.env' });
 
@@ -22,15 +22,14 @@ class Users {
   const pic = await upload(req.file.path)
   console.log(pic)
    
-      const user = new User({
-            email: req.body.email, 
-            username: req.body.username,
-            number: req.body.number,
-            gender: req.body.gender,
-            picture: pic.secure_url,
-            emailVerfication: crypto.randomBytes(20).toString('hex'),
-            emailVerficationExpires: Date.now() + 360000
-      
+  const user = new User({
+        email: req.body.email, 
+        username: req.body.username,
+        number: req.body.number,
+        gender: req.body.gender,
+        picture: pic.secure_url,
+        emailVerfication: crypto.randomBytes(20).toString('hex'),
+        emailVerficationExpires: Date.now() + 360000
    });
 
      User.register(user, req.body.password, (err, user) => {
