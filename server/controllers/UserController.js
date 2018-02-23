@@ -1,10 +1,18 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
+import cloudinary from 'cloudinary';
 import User  from '../models/User';
 import mail from '../handlers/mail';
 import mail2 from '../handlers/mail2';
+import { upload } from '../middleware/imageUpload';
 
 require('dotenv').config({ path: '.env' });
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME, 
+    api_key:  process.env.API_KEY, 
+    api_secret:  process.env.API_SECRET 
+});
 class Users {
   static signupForm (req, res) {
     res.render('signup', {title: 'Signup'});
@@ -14,17 +22,21 @@ class Users {
     res.render('login', {title: 'Login'});
   }
 
-  static signup (req, res, next) {
+  static async signup (req, res, next) {
+  const getit = await cloudinary.v2.uploader.upload(req.file.path)
+  await getit
+  console.log(getit)
+   
       const user = new User({
             email: req.body.email, 
             username: req.body.username,
             number: req.body.number,
             gender: req.body.gender,
-            picture: req.body.picture,
+            picture: getit.secure_url,
             emailVerfication: crypto.randomBytes(20).toString('hex'),
             emailVerficationExpires: Date.now() + 360000
-      })
-    ;
+      
+   });
 
      User.register(user, req.body.password, (err, user) => {
        if(err){
@@ -132,6 +144,16 @@ class Users {
    })
 
 }
+
+static isLoggedIn (req, res, next) {
+    if (req.isAuthenticated()) {
+      next(); 
+      return;
+    }
+    req.flash('error', 'Oops you must be logged in to do that!');
+    req.session.returnTo = req.path;
+    res.redirect('/login');
+  }
 
 
 static logout (req, res) {

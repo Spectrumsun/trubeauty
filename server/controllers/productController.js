@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import Product  from '../models/Product';
+import upload from '../middleware/cloudUpload';
 
 require('dotenv').config({ path: '.env' });
-
 class Products {
   static ProudctForm (req, res) {
     res.render('productform', {title: 'Product Form'});
@@ -10,13 +10,15 @@ class Products {
  
 
   static async Addproduct (req, res) {
-      const product = new Product({
+    const pic = await upload(req.file.path)
+    console.log(pic)
+    const product = new Product({
             category: req.body.category,
             productname: req.body.productname,
             price: req.body.price,
-            picture: req.body.picture,
+            picture: pic.secure_url,
             sender: req.user._id
-      })
+    })
 
     await product.save();
     req.flash('success', 'Product Added!!');

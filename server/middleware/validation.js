@@ -4,7 +4,7 @@ class Validate {
     req.checkBody('username', 'You must supply a name!').notEmpty();
     req.checkBody('number', 'You must supply a Phone Number!').notEmpty();
     req.checkBody('gender', 'You must supply your gender!').notEmpty();
-    req.checkBody('picture', 'You must upload a picture!').notEmpty();
+    //req.checkBody('picture', 'You must upload a picture!').notEmpty();
     req.checkBody('email', 'That Email is not valid!').isEmail();
     req.sanitizeBody('email').normalizeEmail(
         {

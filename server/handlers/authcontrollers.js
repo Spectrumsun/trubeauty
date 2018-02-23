@@ -8,12 +8,3 @@ exports.login = passport.authenticate('local', {
 });
  
 
-exports.isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    next(); 
-    return;
-  }
-  req.flash('error', 'Oops you must be logged in to do that!');
-  req.session.returnTo = req.path;
-  res.redirect('/login');
-};

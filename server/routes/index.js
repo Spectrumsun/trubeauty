@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import cloudinary from 'cloudinary';
 import productController from '../controllers/productController';
 import user from '../controllers/UserController'
 import signup from '../controllers/UserController';
@@ -10,16 +9,11 @@ import orderService from '../controllers/orderServiceController';
 import addservice from '../controllers/addSeviceController';
 import admin from '../controllers/adminController'
 import { catchErrors } from '../handlers/errorHandlers';
+import imageUpload from '../middleware/imageUpload';
 
 const router = express.Router();
 
 dotenv.config();
-
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME, 
-    api_key:  process.env.API_KEY, 
-    api_secret:  process.env.API_SECRET 
-});
 
 router.get('/', (req, res) => {
    res.render('home', {title: 'TruBeauty'})
@@ -29,8 +23,10 @@ router.get('/login', user.loginForm)
 router.post('/login', validation.login, user.isConfirmEmail, auth.login)
 
 router.get('/signup', user.signupForm)
-router.post('/signup',  
-   validation.signup,
+
+router.post('/signup',
+    imageUpload.upload,
+    validation.signup,
     user.signup,
     user.emailVerfication
 )
@@ -50,7 +46,7 @@ router.post('/account/reset/:token',
 router.get('/logout', user.logout)
 
 //pay for product
-router.post('/product/pay',auth.isLoggedIn,
+router.post('/product/pay',user.isLoggedIn,
            
             catchErrors(orderService.PayforOrder))
 
@@ -59,7 +55,7 @@ router.post('/addservice',
     catchErrors(addservice.addservice)
 )
 
-router.get('/addservice', auth.isLoggedIn, 
+router.get('/addservice', user.isLoggedIn, 
             addservice.addServiceFrom
 ) 
 
@@ -71,17 +67,20 @@ router.get('/viewproduct', orderService.viewProducts)
 
 router.get('/admin/', admin.adminDashBoard);
 router.get('/admin/viewproduct', productController.GetProducts);
-router.get('/admin/product', productController.ProudctForm);
+router.get('/admin/products', productController.ProudctForm);
 
-router.post('/admin/addproduct',
-    
+router.post('/admin/product',
+    imageUpload.upload,
     catchErrors(productController.Addproduct));
 
-router.get('/admin/product/edit/:id', 
+router.post('/admin/product/:id', 
+    catchErrors(productController.EditProducts));
+
+
+
+router.get('/admin/editproduct/:id/edit', 
     catchErrors(productController.LoadEditProducts));
 
-router.post('/admin/addproduct/:id', 
-    catchErrors(productController.EditProducts));
 
 router.post('/admin/product/delete/:id', 
     catchErrors(productController.DeleteProduct));

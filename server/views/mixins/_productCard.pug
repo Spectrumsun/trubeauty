@@ -1,7 +1,7 @@
 mixin productCard(product = {})
     .d-lg-inline-block
         .card(style='width: 22rem;' )
-        img.card-img-top.img-thumbnail(src=`/images/default.png`, class="img" alt='Card image cap')
+        img.card-img-top.img-thumbnail(src=product.picture, class="img" alt='Card image cap')
         .card-body
         h5.card-title 
             strong Category - #{product.category}
@@ -9,7 +9,7 @@ mixin productCard(product = {})
             | #{product.productname} 
             br
             h6 Price #{product.price}
-        a.btn.btn-primary(href=`/admin/product/edit/${product._id}`) Edit
+        a.btn.btn-primary(href=`/admin/editproduct/${product._id}/edit`) Edit
         form(action=`/admin/product/delete/${product._id}` method="POST")
             button.btn.btn-danger(value="Delete") Delete
        

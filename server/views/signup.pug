@@ -3,7 +3,7 @@ extends layout
 block content
     .container
         h1 Sign up
-        form.formInput(action=`/signup` method="POST") 
+        form.formInput(action=`/signup` method="POST" enctype="multipart/form-data") 
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Name
                 input.form-control(type='text', aria-describedby='emailHelp' name='username' placeholder='name')
@@ -13,20 +13,17 @@ block content
                 input.form-control(type='number' name='number' aria-describedby='emailHelp', placeholder='11 digit number')
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Email address
-                input.form-control(type='email' placeholder='Enter email' name='email')
+                input.form-control(type='email' placeholder='Enter email' name='email' required)
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Gender
-                 input.form-control(type='text' placeholder='Enter your gender' name='gender')
+                 input.form-control(type='text' placeholder='Enter your gender' name='gender' required)
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Profile Picture
-                input.form-control(type='file' id="photo" accept="image/gif, image/png, image/jpeg" name='picture')
+                input.form-control(type='file' id="picture" accept="image/gif, image/png, image/jpeg" name='picture' required)
             .form-group.col-md-6
                 label(for='exampleInputPassword1') Password
-                input.form-control(type='password', placeholder='Password' name='password')
+                input.form-control(type='password', placeholder='Password' name='password' required)
             .form-group.col-md-6
                 label(for='exampleInputPassword1') Comfirm Password
-                input.form-control(type='password', placeholder='Password',  name="confirmPassword")
-            .form-check.col-md-6
-                input.form-check-input(type='checkbox')
-                label.form-check-label(for='exampleCheck1') Have Read and accepted the terms and conditions
+                input.form-control(type='password', placeholder='Password',  name="confirmPassword" required)
             button.btn.btn-primary(type='submit') Submit

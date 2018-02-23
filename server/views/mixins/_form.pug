@@ -1,5 +1,5 @@
 mixin form(product = {})
-    form.formInput(action=`/admin/addproduct/${product._id}` method="POST" )
+    form.formInput(action=`/admin/product/${product._id || ""}` method="POST" enctype="multipart/form-data")
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Category
                 input.form-control(type='text', aria-describedby='emailHelp' required value=product.category  name='category')
@@ -11,7 +11,9 @@ mixin form(product = {})
                 input.form-control(type='text', aria-describedby='emailHelp' required value=product.price name='price')
             .form-group.col-md-6
                 label(for='exampleInputEmail1') Photo
-                input.form-control(type='file' id="photo" required accept="image/gif, image/png, image/jpeg" name='photo')
-            button.btn.btn-primary(type='submit') Submit
+                input.form-control(type='file' id="picture" accept="image/gif, image/png, image/jpeg" name='picture' required)
+                if product.picture
+                    img(src=product.picture, alt=product.username)
+            button.btn.btn-primary(type='submit') Save
     
     

@@ -32,7 +32,7 @@ const userSchema = new Schema({
   },
   picture: {
     type: String,
-    required: 'Add a picture'
+    //required: 'Add a picture'
   },
   emailVerfication: String,
   emailVerficationExpires: Date,

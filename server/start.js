@@ -1,7 +1,7 @@
+import "babel-polyfill";
 import mongoose from 'mongoose';
 import path from 'path';
 import app from './app';
-
 
 require('dotenv').config({ path: '.env' });
 
