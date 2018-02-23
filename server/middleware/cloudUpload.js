@@ -1,5 +1,7 @@
 import cloudinary from 'cloudinary';
 
+require('dotenv').config({ path: '.env' });
+
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME, 
     api_key:  process.env.API_KEY, 
