@@ -13,7 +13,7 @@ mixin form(product = {})
                 label(for='exampleInputEmail1') Photo
                 input.form-control(type='file' id="picture" accept="image/gif,  image/png, image/jpeg" value=product.pictureID name='picture' )
                 if product.picture
-                    img(src=product.picture, alt=product.username)
+                    img(src=product.picture, alt=product.username width=200)
             button.btn.btn-primary(type='submit') Save
     
     

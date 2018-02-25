@@ -4,10 +4,7 @@ import cloudinary from 'cloudinary';
 import User  from '../models/User';
 import mail from '../handlers/mail';
 import mail2 from '../handlers/mail2';
-import upload from '../middleware/imageUpload';
-
-require('dotenv').config({ path: '.env' });
-
+import imageUpload from '../middleware/imageUpload';
 
 class Users {
   static signupForm (req, res) {
@@ -19,7 +16,7 @@ class Users {
   }
 
   static async signup (req, res, next) {
-  const pic = await upload(req.file.path)
+  const pic = await imageUpload.uploadToCloud(req.file.path)
   console.log(pic)
    
   const user = new User({

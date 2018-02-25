@@ -1,49 +1,38 @@
 import mongoose from 'mongoose';
 import Product  from '../models/Product';
 import imageUpload from '../middleware/imageUpload';
-
-require('dotenv').config({ path: '.env' });
 class Products {
   static ProudctForm (req, res) {
     res.render('productform', {title: 'Product Form'});
   }
  
   static async Addproduct (req, res) {
-    const pic = await imageUpload.uploadToCloud(req.file.path)
-    console.log(pic)
     const product = new Product({
             category: req.body.category,
             productname: req.body.productname,
             price: req.body.price,
-            picture: pic.secure_url,
-            pictureID: pic.public_id,
+            picture: req.photos,
             admin: req.user._id
     })
-
     await product.save();
     req.flash('success', 'Product Added!!');
-    res.redirect('/admin/viewproduct')
+    res.redirect('/admin/viewproduct');
   }
 
 static async LoadEditProducts (req, res) {
-    console.log(req.body)
     const product = await Product.findOne({ _id: req.params.id});
+    req.photos = product.picture
+    console.log('1st ' + req.photos);
     res.render('editProductForm', {title: `Edit ${product.category}`, product})
 }
 
 static async EditProducts (req, res) {
-    const findProduct = await Product.findOne({ _id: req.params.id});
-    console.log(findProduct.pictureID);
-    const pic = await imageUpload.uploadToCloud(findProduct.pictureID);
-    console.log(pic);
     const data = {
         category: req.body.category,
         productname: req.body.productname,
         price: req.body.price,
-        picture: pic.secure_url,
-        pictureID: pic.public_id,
+        picture: req.photos,
         sender: req.user._id
-
     }
     const products = await Product.findOneAndUpdate({ _id: req.params.id }, data, {
         new: true,

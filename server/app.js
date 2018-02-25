@@ -11,7 +11,6 @@ import expressValidator from 'express-validator';
 import cors from 'cors';
 import path from 'path';
 import routes from './routes/index';
-import helpers from './helpers';
 import errorHandlers from './handlers/errorHandlers';
 
 const MongoStore = require('connect-mongo')(session);
@@ -42,13 +41,13 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(flash());
 
 app.use((req, res, next) => {
-  res.locals.h = helpers;
   res.locals.flashes = req.flash();
   res.locals.user = req.user || null;
   res.locals.currentPath = req.path;

@@ -22,8 +22,6 @@ const productSchema = new Schema({
   },
   picture: {
     type: String,
-    required: 'Add a picture',
-    default: 'photo.png'
   },
   pictureID: {
     type: String,

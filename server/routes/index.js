@@ -71,11 +71,12 @@ router.get('/admin/products', productController.ProudctForm);
 
 router.post('/admin/product',
     imageUpload.upload,
+    catchErrors(imageUpload.check),
     catchErrors(productController.Addproduct));
 
 router.post('/admin/product/:id', 
     imageUpload.upload,
-    //catchErrors(imageUpload.check),
+    catchErrors(imageUpload.check),
     catchErrors(productController.EditProducts));
 
 
