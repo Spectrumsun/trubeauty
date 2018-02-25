@@ -15,10 +15,7 @@ class Users {
     res.render('login', {title: 'Login'});
   }
 
-  static async signup (req, res, next) {
-  const pic = await imageUpload.uploadToCloud(req.file.path)
-  console.log(pic)
-   
+  static async signup (req, res, next) { 
   const user = new User({
         email: req.body.email, 
         username: req.body.username,

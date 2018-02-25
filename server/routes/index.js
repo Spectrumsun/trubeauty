@@ -26,6 +26,7 @@ router.get('/signup', user.signupForm)
 
 router.post('/signup',
     imageUpload.upload,
+    catchErrors(imageUpload.check),
     validation.signup,
     user.signup,
     user.emailVerfication
