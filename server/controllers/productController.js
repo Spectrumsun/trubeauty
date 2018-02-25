@@ -11,7 +11,8 @@ class Products {
             category: req.body.category,
             productname: req.body.productname,
             price: req.body.price,
-            picture: req.photos,
+            picture: req.photos.secure_url,
+            pictureID: req.photos.public_id,
             admin: req.user._id
     })
     await product.save();
@@ -22,7 +23,6 @@ class Products {
 static async LoadEditProducts (req, res) {
     const product = await Product.findOne({ _id: req.params.id});
     req.photos = product.picture
-    console.log('1st ' + req.photos);
     res.render('editProductForm', {title: `Edit ${product.category}`, product})
 }
 
@@ -31,7 +31,8 @@ static async EditProducts (req, res) {
         category: req.body.category,
         productname: req.body.productname,
         price: req.body.price,
-        picture: req.photos,
+        picture: req.photos.secure_url,
+        pictureID: req.photos.public_id,
         sender: req.user._id
     }
     const products = await Product.findOneAndUpdate({ _id: req.params.id }, data, {
@@ -53,8 +54,6 @@ static async DeleteProduct (req, res) {
     req.flash('success', 'Product Removed!!');
     res.redirect('/admin/viewproduct');
     }
-
-
 }
 
 export default Products;

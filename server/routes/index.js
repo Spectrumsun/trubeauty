@@ -35,6 +35,7 @@ router.post('/signup',
 router.get('/account/confirmemail/:token', user.confirmEmail)
 
 router.get('/passwordreset', user.passwordreset)
+
 router.post('/passwordreset', catchErrors(user.forgotPassword))
 
 router.get('/account/reset/:token', catchErrors(user.reset))
@@ -72,12 +73,12 @@ router.get('/admin/products', productController.ProudctForm);
 
 router.post('/admin/product',
     imageUpload.upload,
-    catchErrors(imageUpload.check),
+    catchErrors(imageUpload.newUpload),
     catchErrors(productController.Addproduct));
 
 router.post('/admin/product/:id', 
     imageUpload.upload,
-    catchErrors(imageUpload.check),
+    catchErrors(imageUpload.editUpLoad),
     catchErrors(productController.EditProducts));
 
 
@@ -87,6 +88,7 @@ router.get('/admin/editproduct/:id/edit',
 
 
 router.post('/admin/product/delete/:id', 
+          catchErrors(imageUpload.deleteUpLoad),
     catchErrors(productController.DeleteProduct));
 
 

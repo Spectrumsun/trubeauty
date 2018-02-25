@@ -30,27 +30,50 @@ const multerOptions = {
 exports.upload = multer(multerOptions).single('picture');
 
 
-exports.check = async (req, res, next) => {
+exports.newUpload = async (req, res, next) => {
 	if(!req.file){
-        const product = await Product.findOne({ _id: req.params.id});
-        req.photos = product.picture
-        console.log('2nd ' + req.photos);
+        req.photos = {
+            secure_url: process.env.SECURE_URL,
+            public_id: process.env.PUBLIC_ID
+        }
 		next();
         return
 	} 
     const pic = await cloudinary.v2.uploader.upload(req.file.path)
-    req.photos = pic.secure_url
+    req.photos = pic;
+    console.log(req.photos)
     next();
 }
 
 
-/* exports.editUpLoad = (arg) => {
-    const picture = cloudinary.v2.uploader.explicit(arg)
-    return picture
+
+exports.editUpLoad = async (req, res, next) => {
+    const product = await Product.findOne({ _id: req.params.id});
+    if(!req.file){
+        req.photos = {
+            secure_url: product.picture,
+            public_id: product.pictureId
+        }
+        req.photos.secure_url = product.picture;
+        req.photos.public_id = product.pictureID
+		next();
+        return
+	}
+    
+    const remove = await cloudinary.v2.uploader.destroy(product.pictureID);
+    const pic = await cloudinary.v2.uploader.upload(req.file.path);
+    req.photos = pic;
+    console.log(req.photos);
+    next();
+} 
+
+
+
+exports.deleteUpLoad = async (req, res, next) => {
+    const product = await Product.findOne({ _id: req.params.id});
+    const picture = await cloudinary.v2.uploader.destroy(product.pictureID)
+    console.log(picture)
+    next();
 }
 
-exports.deleteUpLoad = (arg) => {
-    const picture = cloudinary.v2.uploader.destroy(arg)
-    return picture
-}  */
 
