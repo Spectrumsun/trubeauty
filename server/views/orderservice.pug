@@ -17,25 +17,9 @@ block content
             strong Product #{products.productname} 
             br
             strong Price #{products.price} 
-        form(action=`/product/pay` method="POST")
-            .form-group.col-md-6
-                label(for='exampleInputEmail1') 
-                strong Location
-                input.form-control(type='text' placeholder='Your Currrent Location' name="location")
-            .form-group.col-md-6
-                label(for='exampleInputEmail1') 
-                strong Address
-                input.form-control(type='text' placeholder='Where you want the Service' name="address")
-                label(for='exampleInputEmail1') 
-                strong Time
-                input.form-control(type='time' placeholder='Time' name="time")
-            .form-group.col-md-6
-                label(for='exampleInputEmail1') 
-                strong Date
-                input.form-control(type='date' placeholder='Date' name="date")
-            .form-group.col-md-6
-                input.form-control(type='hidden' placeholder='Date' value=products._id name="id")
-            button.btn.btn-success(value="Delete") Pay
+        form(action=`/addtocart/${products._id}` method="POST")
+            button.btn.btn-success(value="Button") Add to Cart
+        
 
 
             

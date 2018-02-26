@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
-import cloudinary from 'cloudinary';
 import User  from '../models/User';
 import mail from '../handlers/mail';
 import mail2 from '../handlers/mail2';
@@ -66,6 +65,11 @@ class Users {
 
   static async isConfirmEmail(req, res, next){
     const user = await User.findOne({email: req.body.email });
+    if(!user){
+      next();
+      return
+    }
+
     if(user.emailVerfication && user.emailVerficationExpires !== undefined ){
       req.flash('error', 'You have to first confirm Your Email');
       return res.redirect('/login')

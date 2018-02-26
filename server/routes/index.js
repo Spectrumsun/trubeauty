@@ -20,13 +20,13 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', user.loginForm)
-router.post('/login', validation.login, user.isConfirmEmail, auth.login)
+router.post('/login', validation.login, catchErrors(user.isConfirmEmail), auth.login)
 
 router.get('/signup', user.signupForm)
 
 router.post('/signup',
     imageUpload.upload,
-    catchErrors(imageUpload.check),
+    catchErrors(imageUpload.newUpload),
     validation.signup,
     user.signup,
     user.emailVerfication
@@ -45,7 +45,11 @@ router.post('/account/reset/:token',
     catchErrors(user.passwordupdate)
   )
 
-router.get('/logout', user.logout)
+router.get('/logout', user.logout);
+
+
+
+router.post('./cart', orderService.cartList);
 
 //pay for product
 router.post('/product/pay',user.isLoggedIn,

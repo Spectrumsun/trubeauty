@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import morgan from 'morgan';
 import flash from 'connect-flash';
-import cloudinary from 'cloudinary';
 import passport from 'passport';
 import mongoose, { Mongoose } from 'mongoose';
 import cookieParser from 'cookie-parser'; 

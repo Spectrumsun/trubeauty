@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import Product  from '../models/Product';
-import imageUpload from '../middleware/imageUpload';
 class Products {
   static ProudctForm (req, res) {
     res.render('productform', {title: 'Product Form'});
@@ -22,7 +21,6 @@ class Products {
 
 static async LoadEditProducts (req, res) {
     const product = await Product.findOne({ _id: req.params.id});
-    req.photos = product.picture
     res.render('editProductForm', {title: `Edit ${product.category}`, product})
 }
 

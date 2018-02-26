@@ -1,7 +1,7 @@
 mixin productCard(product = {})
     .d-lg-inline-block
         .card(style='width: 22rem;' )
-        img.card-img-top.img-thumbnail(src=`/images/default.png`, class="img" alt='Card image cap')
+        img.card-img-top.img-thumbnail(src=product.picture, class="img" alt='Card image cap')
         .card-body
         h5.card-title 
             strong Category - #{product.category}
@@ -10,6 +10,7 @@ mixin productCard(product = {})
             br
             h6 Price #{product.price}
         a.btn.btn-primary(href=`/orderproduct/${product._id}`) Order
+        
        
        
       

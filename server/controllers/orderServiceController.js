@@ -41,6 +41,10 @@ class OrderServices {
     res.render('paystack', {title: 'Paystack', order})
   }
 
+  static cartList (req, res) {
+    res.render('cart');
+  }
+
 
 }
 
