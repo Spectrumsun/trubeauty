@@ -19,17 +19,20 @@ html
 							strong  Home 
 							span.sr-only (current)
 						li.nav-item
-							a.nav-link(href='/login') 
+							a.nav-link(href='/user/login') 
 								strong Login
 						li.nav-item
-							a.nav-link(href='/signup') 
+							a.nav-link(href='/user/signup') 
 								strong Signup
 						li.nav-item
-							a.nav-link(href='/logout') 
+							a.nav-link(href='/user/logout') 
 								strong Logout
-						i.nav-item
-							a.nav-link(href='/logout') 
+						li.nav-item
+							a.nav-link(href='/user/logout') 
 								strong 
+						li.nav-item
+							a.nav-link(href='/user/myCart') 
+								strong My Cart
 						li.nav-item
 							a.nav-link(href='/admin') 
 								strong Admin
@@ -37,9 +40,9 @@ html
 							a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
 								strong  Services
 							.dropdown-menu(aria-labelledby='navbarDropdown')
-								a.dropdown-item(href='/addservice') Add service
+								a.dropdown-item(href='/user/addservice') Add service
 								.dropdown-divider
-								a.dropdown-item(href='/viewproduct') View Product
+								a.dropdown-item(href='/user/viewproduct') View Product
 						li.nav-item
 							
 					form.form-inline.my-2.my-lg-0

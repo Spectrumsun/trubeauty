@@ -4,7 +4,6 @@ import User  from '../models/User';
 import mail from '../handlers/mail';
 import mail2 from '../handlers/mail2';
 import imageUpload from '../middleware/imageUpload';
-
 class Users {
   static signupForm (req, res) {
     res.render('signup', {title: 'Signup'});
@@ -20,7 +19,8 @@ class Users {
         username: req.body.username,
         number: req.body.number,
         gender: req.body.gender,
-        picture: pic.secure_url,
+        picture: req.photos.secure_url,
+        pictureID: req.photos.public_id,
         emailVerfication: crypto.randomBytes(20).toString('hex'),
         emailVerficationExpires: Date.now() + 360000
    });
@@ -29,21 +29,21 @@ class Users {
        if(err){
          req.flash('Sign up error', err )
          res.render('signup', {title: 'Signup', body: req.body, err: err, flashes: req.flash() })
-       }else{
+       }/* else{
          const emailURL = `http//${req.headers.host}/account/confirmemail/${user.emailVerfication}`
           mail2.send({
           user,
           subject: 'Email verification',
           emailURL
-        })
+        }) */
           next();
-       }
+       //}
      })
   }
 
   static emailVerfication(req, res){
     req.flash('success', 'Check your inbox to verfiy your mail');
-    res.redirect('/', )
+    res.redirect('/')
   }
 
   static async confirmEmail (req, res ) {
@@ -59,7 +59,7 @@ class Users {
     user.emailVerfication = undefined
     user.emailVerficationExpires = undefined
     user.save()
-    req.flash('success', '💃 Nice! Email Confirmed You are can now login!');;
+    req.flash('success', '💃 Nice! Email Confirmed You are can now login!');
     res.redirect('/login');
   }
 
@@ -72,7 +72,7 @@ class Users {
 
     if(user.emailVerfication && user.emailVerficationExpires !== undefined ){
       req.flash('error', 'You have to first confirm Your Email');
-      return res.redirect('/login')
+      return res.redirect('/user/login')
     }
     next();
   }

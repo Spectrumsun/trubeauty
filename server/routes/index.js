@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import csurf from 'csurf';
 import productController from '../controllers/productController';
 import user from '../controllers/UserController'
 import signup from '../controllers/UserController';
@@ -12,6 +13,8 @@ import { catchErrors } from '../handlers/errorHandlers';
 import imageUpload from '../middleware/imageUpload';
 
 const router = express.Router();
+const csurfProtection = csurf();
+//router.use(csurfProtection);
 
 dotenv.config();
 
@@ -19,81 +22,122 @@ router.get('/', (req, res) => {
    res.render('home', {title: 'TruBeauty'})
 });
 
-router.get('/login', user.loginForm)
-router.post('/login', validation.login, catchErrors(user.isConfirmEmail), auth.login)
 
-router.get('/signup', user.signupForm)
+//User Route
+router.get('/user/login', 
+    user.loginForm
+)
+router.post('/user/login', 
+    validation.login, 
+    catchErrors(user.isConfirmEmail), 
+    auth.login
+)
 
-router.post('/signup',
+router.get('/user/signup', 
+    user.signupForm
+)
+
+router.post('/user/signup',
     imageUpload.upload,
-    catchErrors(imageUpload.newUpload),
     validation.signup,
+    catchErrors(imageUpload.newUpload),
     user.signup,
     user.emailVerfication
 )
 
-router.get('/account/confirmemail/:token', user.confirmEmail)
+router.get('/user/confirmemail/:token', 
+    user.confirmEmail
+)
 
-router.get('/passwordreset', user.passwordreset)
+router.get('/user/passwordreset', 
+    user.passwordreset
+)
 
-router.post('/passwordreset', catchErrors(user.forgotPassword))
+router.post('/user/passwordreset', 
+    catchErrors(user.forgotPassword)
+)
 
-router.get('/account/reset/:token', catchErrors(user.reset))
+router.get('/user/account/reset/:token', 
+    catchErrors(user.reset)
+)
 
-router.post('/account/reset/:token',
+router.post('/user/account/reset/:token',
     validation.resetpassword, 
     catchErrors(user.passwordupdate)
-  )
-
-router.get('/logout', user.logout);
+)
 
 
+router.get('/user/addservice', user.isLoggedIn, 
+            addservice.addServiceFrom
+) 
 
-router.post('./cart', orderService.cartList);
 
-//pay for product
-router.post('/product/pay',user.isLoggedIn,
-           
-            catchErrors(orderService.PayforOrder))
-
-router.post('/addservice', 
+router.post('/user/addservice', 
     validation.addservice, 
     catchErrors(addservice.addservice)
 )
 
-router.get('/addservice', user.isLoggedIn, 
-            addservice.addServiceFrom
-) 
+router.get('/user/viewproduct', 
+    orderService.viewProducts
+)
 
-router.get('/orderproduct/:id',
+
+router.get('/user/orderproduct/:id',
          orderService.orderservice
 )
 
-router.get('/viewproduct', orderService.viewProducts)
+router.post('/user/product/pay',
+    user.isLoggedIn,       
+    catchErrors(orderService.PayforOrder)
+)
 
-router.get('/admin/', admin.adminDashBoard);
-router.get('/admin/viewproduct', productController.GetProducts);
-router.get('/admin/products', productController.ProudctForm);
+//cart router
+router.get('/user/addtocart/:id', orderService.addToCart)
+
+router.get('/user/myCart',
+    orderService.showCart
+);
+
+
+router.get('/user/logout', 
+    user.logout
+);
+
+
+//Admin Route
+router.get('/admin/', 
+    admin.adminDashBoard
+);
+
+router.get('/admin/viewproduct', 
+    productController.GetProducts
+);
+router.get('/admin/products', 
+    productController.ProudctForm
+);
 
 router.post('/admin/product',
     imageUpload.upload,
     catchErrors(imageUpload.newUpload),
-    catchErrors(productController.Addproduct));
+    catchErrors(productController.Addproduct)
+);
 
 router.post('/admin/product/:id', 
     imageUpload.upload,
     catchErrors(imageUpload.editUpLoad),
-    catchErrors(productController.EditProducts));
-
+    catchErrors(productController.EditProducts)
+);
 
 
 router.get('/admin/editproduct/:id/edit', 
-    catchErrors(productController.LoadEditProducts));
+    catchErrors(productController.LoadEditProducts)
+);
 
 
 router.post('/admin/product/delete/:id', 
-          catchErrors(imageUpload.deleteUpLoad),
-    catchErrors(productController.DeleteProduct));
+    catchErrors(imageUpload.deleteUpLoad),
+    catchErrors(productController.DeleteProduct)
+);
 
 
 

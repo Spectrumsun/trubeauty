@@ -11,6 +11,7 @@ import cors from 'cors';
 import path from 'path';
 import routes from './routes/index';
 import errorHandlers from './handlers/errorHandlers';
+import Security from './middleware/security';
 
 const MongoStore = require('connect-mongo')(session);
 require('./handlers/passport');
@@ -37,7 +38,9 @@ app.use(session({
   key: process.env.KEY,
   resave: false,
   saveUninitialized: false,
-  store: new MongoStore({ mongooseConnection: mongoose.connection })
+  unset: 'destroy',
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  cookie: {maxAge: 100 * 60 * 1000}
 }));
 
 
@@ -50,6 +53,7 @@ app.use((req, res, next) => {
   res.locals.flashes = req.flash();
   res.locals.user = req.user || null;
   res.locals.currentPath = req.path;
+  res.locals.session = req.session;
   next();
 });
 

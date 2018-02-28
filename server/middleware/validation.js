@@ -13,7 +13,7 @@ class Validate {
         gmail_remove_subaddress: false 
         }
     );
-    req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
+    req.checkBody('password', 'Password Cannot be Blank! Not less than five words').notEmpty().isLength({min:4});
     req.checkBody('confirmPassword', 'Oops! Your passwords do not match').equals(req.body.password);
 
     const errors = req.validationErrors();
