@@ -6,7 +6,7 @@ import user from '../controllers/UserController'
 import signup from '../controllers/UserController';
 import validation from '../middleware/validation'
 import auth from '../handlers/authcontrollers'
-import orderService from '../controllers/orderServiceController';
+import order from '../controllers/orderController';
 import addservice from '../controllers/addSeviceController';
 import admin from '../controllers/adminController'
 import { catchErrors } from '../handlers/errorHandlers';
@@ -78,26 +78,35 @@ router.post('/user/addservice',
 )
 
 router.get('/user/viewproduct', 
-    orderService.viewProducts
+    order.viewProducts
 )
 
 
 router.get('/user/orderproduct/:id',
-         orderService.orderservice
-)
-
-router.post('/user/product/pay',
-    user.isLoggedIn,       
-    catchErrors(orderService.PayforOrder)
+         order.orderservice
 )
 
 //cart router
-router.get('/user/addtocart/:id', orderService.addToCart)
+router.get('/user/addtocart/:id', 
+    order.addToCart
+)
 
-router.get('/user/myCart',
-    orderService.showCart
+router.get('/user/removeone/:id', 
+    order.removeOneFromCart
+)
+
+router.get('/user/removeall/:id', 
+    order.removeAll
 );
 
+router.get('/user/myCart',
+    order.showCart
+);
+
+router.get('/user/product/pay',
+    user.isLoggedIn,       
+    catchErrors(order.Pay)
+)
 
 router.get('/user/logout', 
     user.logout

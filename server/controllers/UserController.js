@@ -54,13 +54,13 @@ class Users {
 
     if(!user) {
       req.flash('error', 'Email verification failed token is not invalid or has expired');
-      return res.redirect('/signup');
+      return res.redirect('/user/signup');
     }
     user.emailVerfication = undefined
     user.emailVerficationExpires = undefined
     user.save()
     req.flash('success', '💃 Nice! Email Confirmed You are can now login!');
-    res.redirect('/login');
+    res.redirect('/user/login');
   }
 
   static async isConfirmEmail(req, res, next){
@@ -85,7 +85,7 @@ class Users {
     const user = await User.findOne({email: req.body.email });
     if(!user){
       req.flash('success', 'A password reset has been mailed to you');
-      return res.redirect('/login')
+      return res.redirect('/user/login')
     }
 
     user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
@@ -99,7 +99,7 @@ class Users {
       resetURL
     })
     req.flash('success', `You have been emailed a passsword reset link`)
-    res.redirect('/login');
+    res.redirect('/user/login');
   }
 
   static async reset (req, res ) {
@@ -110,7 +110,7 @@ class Users {
 
     if(!user) {
       req.flash('error', 'Password reset token is not invalid or has expired');
-      return res.redirect('/login');
+      return res.redirect('/user/login');
     }
     res.render('resetpassword', {title: 'Reset your Password'});
   }
@@ -123,7 +123,7 @@ class Users {
 
     if(!user) {
       req.flash('error', 'Password reset token is not invalid or has expired');
-      res.redirect('/login');
+      res.redirect('/user/login');
     }
 
       const newPassword = req.body.password
@@ -132,7 +132,7 @@ class Users {
             user.resetPasswordExpires = undefined
             user.save()
             req.flash('success', '💃 Nice! Your password has been reset! You are can now login!');
-            res.redirect('/login');
+            res.redirect('/user/login');
    })
 
 }
@@ -143,8 +143,10 @@ static isLoggedIn (req, res, next) {
       return;
     }
     req.flash('error', 'Oops you must be logged in to do that!');
-    req.session.returnTo = req.path;
-    res.redirect('/login');
+    req.session.oldUrl = req.url;
+    console.log(req.session.oldUrl)
+
+    res.redirect('/user/login');
   }
 
 

@@ -3,26 +3,28 @@ extends layout
 block content
 	.container
 		h2 My Cart
-		if products == null
+		if products == null || totalPrice == 0
 			h4 No item in the Cart!!!!!
 		else
 			ul.list-group.col-md-6
 				each val in products
 					li.list-group-item.list-group-item-light
-						strong Product Name: #{val.item.productname} | Quantity: #{val.qty} | Price: N #{val.price} 
-						span.badge-badge-primary-badge-pill     
-							strong X
+						strong Product Name: #{val.item.productname} | Quantity: #{val.qty} | Price: N #{val.price} | Image:
+							img(src=val.item.picture, alt=val.item.productname width=30)
+							strong 
+							a.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
+								strong  Remove
+							.dropdown-menu(aria-labelledby='navbarDropdown')
+								a.dropdown-item(href=`/user/removeone/${val.item._id}`) Remove 1
+								.dropdown-divider
+								a.dropdown-item(href=`/user/removeall/${val.item._id}`) Remove All
 					br
 
 					
 			br
 			h3 
 				strong Total Price N#{totalPrice}
-			form(action=`/product/pay` method="POST")
-				.form-group.col-md-6
-					label(for='exampleInputEmail1')
-					strong Location
-					input.form-control(type='text' placeholder='Your Current Location' name="location")
+			form(action=`/user/product/pay` method="GET")
 				.form-group.col-md-6
 					label(for='exampleInputEmail1')
 					strong Address
@@ -30,14 +32,15 @@ block content
 				.form-group.col-md-6
 					label(for='exampleInputEmail1')
 					strong Time
-					input.form-control(type='text' placeholder='Only add time if you ordered a service' name="Time")
+					input.form-control(type='time' placeholder='Only add time if you ordered a service' name="Time")
 				.form-group.col-md-6
 					label(for='exampleInputEmail1')
 					strong Date
-					input.form-control(type='text' placeholder='Only add Date if you ordered a service' name="Date")
+					input.form-control(type='date' placeholder='Only add Date if you ordered a service' name="Date")
 				.form-group.col-md-6
 					input.form-control(type='hidden' placeholder='Date' value=products._id name="id")
 				button.btn.btn-success Pay
+			a.btn.btn-primary(href=`/user/product/pay`) Paying
 
 
 
