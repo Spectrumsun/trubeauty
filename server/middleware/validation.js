@@ -2,9 +2,9 @@ class Validate {
   static signup(req, res, next) {
     req.sanitizeBody('name');
     req.checkBody('username', 'You must supply a name!').notEmpty();
-    req.checkBody('number', 'You must supply a Phone Number!').notEmpty();
+    req.checkBody('phone', 'You must supply a Phone Number! 11 Digit').notEmpty().isLength({min:11});
     req.checkBody('gender', 'You must supply your gender!').notEmpty();
-    //req.checkBody('picture', 'You must upload a picture!').notEmpty();
+    req.checkBody('address', 'You must supply your address!').notEmpty();
     req.checkBody('email', 'That Email is not valid!').isEmail();
     req.sanitizeBody('email').normalizeEmail(
         {
@@ -13,7 +13,7 @@ class Validate {
         gmail_remove_subaddress: false 
         }
     );
-    req.checkBody('password', 'Password Cannot be Blank! Not less than five words').notEmpty().isLength({min:4});
+    req.checkBody('password', 'Password Cannot be Blank! Not less than five words').notEmpty().isLength({min:6});
     req.checkBody('confirmPassword', 'Oops! Your passwords do not match').equals(req.body.password);
 
     const errors = req.validationErrors();

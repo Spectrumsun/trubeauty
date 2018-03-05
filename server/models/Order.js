@@ -4,7 +4,7 @@ import mongodbErrorHandler from 'mongoose-mongodb-errors';
 
 const Schema = mongoose.Schema;
 
-const orderServiceSchema = new Schema({
+const orderSchema = new Schema({
    buyerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -15,7 +15,6 @@ const orderServiceSchema = new Schema({
   },
    address: {
     type: String,
-    required: 'Address cannot be empty'
   },
   time: {
    type: String,
@@ -23,7 +22,7 @@ const orderServiceSchema = new Schema({
   date: {
     type: String,
   },
-  paymentId:{
+  ref:{
     type: String,
     required: true
   },
@@ -33,7 +32,7 @@ const orderServiceSchema = new Schema({
     },
 });
 
-orderServiceSchema.plugin(mongodbErrorHandler);
+orderSchema.plugin(mongodbErrorHandler);
 
 
-export default mongoose.model('OrderService', orderServiceSchema);
+export default mongoose.model('Order', orderSchema);

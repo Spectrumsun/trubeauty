@@ -11,6 +11,7 @@ import addservice from '../controllers/addSeviceController';
 import admin from '../controllers/adminController'
 import { catchErrors } from '../handlers/errorHandlers';
 import imageUpload from '../middleware/imageUpload';
+import Auth from '../middleware/auth';
 
 const router = express.Router();
 const csurfProtection = csurf();
@@ -21,7 +22,6 @@ dotenv.config();
 router.get('/', (req, res) => {
    res.render('home', {title: 'TruBeauty'})
 });
-
 
 //User Route
 router.get('/user/login', 
@@ -67,10 +67,10 @@ router.post('/user/account/reset/:token',
 )
 
 
-router.get('/user/addservice', user.isLoggedIn, 
-            addservice.addServiceFrom
+router.get('/user/addservice', 
+    user.isLoggedIn, 
+    addservice.addServiceFrom
 ) 
-
 
 router.post('/user/addservice', 
     validation.addservice, 
@@ -80,7 +80,6 @@ router.post('/user/addservice',
 router.get('/user/viewproduct', 
     order.viewProducts
 )
-
 
 router.get('/user/orderproduct/:id',
          order.orderservice
@@ -103,51 +102,96 @@ router.get('/user/myCart',
     order.showCart
 );
 
-router.get('/user/product/pay',
-    user.isLoggedIn,       
+router.get('/user/checkout',
+    user.isLoggedIn,
+    order.checkout
+)
+
+router.post('/user/product/pay', 
     catchErrors(order.Pay)
+)
+
+router.get('/user/account',
+    user.isLoggedIn,
+    user.getAcccountDetails
+)
+
+router.get('/user/edit/account',
+    user.isLoggedIn,
+    user.editAccount
 )
 
 router.get('/user/logout', 
     user.logout
 );
 
+router.get('/order', order.orderList)
 
 //Admin Route
-router.get('/admin/', 
+router.get('/admin/',
+    user.isLoggedIn,
+    Auth.Admin,
     admin.adminDashBoard
 );
 
-router.get('/admin/viewproduct', 
+router.get('/admin/viewproduct',
+    user.isLoggedIn,
+    Auth.Admin,
     productController.GetProducts
 );
 router.get('/admin/products', 
+    user.isLoggedIn,
+    Auth.Admin,
     productController.ProudctForm
 );
 
 router.post('/admin/product',
+    user.isLoggedIn,
+    Auth.Admin,
     imageUpload.upload,
     catchErrors(imageUpload.newUpload),
     catchErrors(productController.Addproduct)
 );
 
-router.post('/admin/product/:id', 
+router.post('/admin/product/:id',
+    user.isLoggedIn,
+    Auth.Admin,
     imageUpload.upload,
     catchErrors(imageUpload.editUpLoad),
     catchErrors(productController.EditProducts)
 );
 
 
-router.get('/admin/editproduct/:id/edit', 
+router.get('/admin/editproduct/:id/edit',
+    user.isLoggedIn,
+    Auth.Admin,
     catchErrors(productController.LoadEditProducts)
 );
 
 
-router.post('/admin/product/delete/:id', 
+router.post('/admin/product/delete/:id',
+    user.isLoggedIn,
+    Auth.Admin,
     catchErrors(imageUpload.deleteUpLoad),
     catchErrors(productController.DeleteProduct)
 );
 
+router.get('/admin/getverifypayment',
+    order.getVerifyPayment
+)
+
+router.post('/admin/verifypayment',
+    catchErrors(order.verifyPayment)
+)
+
+router.get('/admin/orders', order.orderList);
+
+router.get('/admin/findsingleorder', 
+    order.getFindOrder
+)
+
+router.post('/admin/findOrders', 
+    catchErrors(order.findOrder));
 
 
 export default router;

@@ -24,23 +24,8 @@ block content
 			br
 			h3 
 				strong Total Price N#{totalPrice}
-			form(action=`/user/product/pay` method="GET")
-				.form-group.col-md-6
-					label(for='exampleInputEmail1')
-					strong Address
-					input.form-control(type='text' placeholder='Your Address' name="Address")
-				.form-group.col-md-6
-					label(for='exampleInputEmail1')
-					strong Time
-					input.form-control(type='time' placeholder='Only add time if you ordered a service' name="Time")
-				.form-group.col-md-6
-					label(for='exampleInputEmail1')
-					strong Date
-					input.form-control(type='date' placeholder='Only add Date if you ordered a service' name="Date")
-				.form-group.col-md-6
-					input.form-control(type='hidden' placeholder='Date' value=products._id name="id")
-				button.btn.btn-success Pay
-			a.btn.btn-primary(href=`/user/product/pay`) Paying
+			a.btn.btn-success(href='/user/checkout') Checkout
+
 
 
 

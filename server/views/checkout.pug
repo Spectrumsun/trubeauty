@@ -1,0 +1,30 @@
+extends layout
+
+block content
+	.container
+		h2 Check Out
+		form(action=`#` method="Get" id="myform" name="myform")
+			.form-group.col-md-3
+				label(for='exampleInputEmail1')
+				strong Time
+				input.form-control(type='time' placeholder='Only add time if you ordered a service' id="time" name="time")
+			.form-group.col-md-3
+				label(for='exampleInputEmail1')
+				strong Date
+				input.form-control(type='date' placeholder='Only add Date if you ordered a service' id="date" name="date")
+			.form-group.col-md-6
+				label(for='exampleInputEmail1')
+				strong Address
+				input.form-control(type='text'  value= user.address id="address" name="Address")
+			.form-group.col-md-6
+				label(for='exampleInputEmail1')
+				strong Phone Number
+				input.form-control(type='text'  value= user.phone id="phone" name="phone")
+				input.form-control(type='hidden' value= user._id name="userId" id="userId")
+				input.form-control(type='hidden' value= user.username id="username")
+				input.form-control(type='hidden' value= user.email id="email" name="email")
+				input.form-control(type='hidden' value= products id="products")
+				input.form-control(type='hidden' value= totalPrice id="price" name="price")
+			button.btn.btn-success(type='button',  id="button")  Pay
+				
+			

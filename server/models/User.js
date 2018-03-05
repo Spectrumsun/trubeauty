@@ -20,13 +20,17 @@ const userSchema = new Schema({
     required: 'Please supply a name',
     trim: true
   },
-  number: {
+  phone: {
     type: Number,
     required: 'Please supply a phone number',
   },
   gender: {
     type: String,
     required: 'Add your Gender',
+  },
+  address: {
+    type: String,
+    required: true
   },
   picture: {
     type: String,

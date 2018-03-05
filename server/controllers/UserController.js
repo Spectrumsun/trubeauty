@@ -17,10 +17,12 @@ class Users {
   const user = new User({
         email: req.body.email, 
         username: req.body.username,
-        number: req.body.number,
+        phone: req.body.phone,
         gender: req.body.gender,
+        address: req.body.address,
         picture: req.photos.secure_url,
         pictureID: req.photos.public_id,
+        role: 'user',
         emailVerfication: crypto.randomBytes(20).toString('hex'),
         emailVerficationExpires: Date.now() + 360000
    });
@@ -134,6 +136,24 @@ class Users {
             req.flash('success', '💃 Nice! Your password has been reset! You are can now login!');
             res.redirect('/user/login');
    })
+
+}
+
+static async getAcccountDetails (req, res) {
+  const user = await User.findOne({_id: req.user._id})
+  res.render('profile', {user})
+}
+ 
+ 
+static async editAccount (req, res) {
+  const user = await User.findOneAndUpdate({ _id: req.params.id }, user, {
+        new: true,
+        runValidators: true
+    }).exec()
+    req.flash('success', 'User Acoount Successfully Updateded!!')
+    res.redirect('/user/accunt')
+
+
 
 }
 

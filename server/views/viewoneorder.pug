@@ -1,0 +1,18 @@
+extends adminLayout
+
+include mixins/_productCard
+
+block content
+    .container
+        h1 View One Order
+        form.formInput(action=`/admin/findOrders` method="POST" ) 
+            .form-group.col-md-6
+                label(for='exampleInputEmail1') Enter Reference Id
+                input.form-control(type='text', aria-describedby='emailHelp' name='ref' placeholder='Reference id')
+                small#emailHelp.form-text.text-muted 
+            button.btn.btn-primary(type='submit') Submit
+
+          
+		
+			
+
